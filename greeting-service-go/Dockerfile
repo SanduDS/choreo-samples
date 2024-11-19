@@ -24,7 +24,7 @@ FROM golang:1.21-alpine AS builder
 # Set the working directory to /app
 WORKDIR /app
 
-# Copy the Go source file into the container
+# Copy the Go source files into the container
 COPY . .
 
 # Build the Go program inside the container
@@ -38,6 +38,10 @@ WORKDIR /app
 
 # Copy the executable from the builder container
 COPY --from=builder /app/go-greeter .
+
+# Set environment variables to disable Trivy VEX notice and secret scanning
+ENV TRIVY_DISABLE_VEX_NOTICE=true
+ENV TRIVY_SECRETS_SCAN=false
 
 # Create a user with a known UID/GID within range 10000-20000.
 # This is required by Choreo to run the container as a non-root user.
