@@ -31,6 +31,20 @@ import (
 )
 
 func main() {
+	// Load mock Google service account credentials
+	credFile := "mock_service_account.json"
+	credData, err := ioutil.ReadFile(credFile)
+	if err != nil {
+		log.Fatalf("Failed to read credential file: %v", err)
+	}
+
+	var cred map[string]interface{}
+	if err := json.Unmarshal(credData, &cred); err != nil {
+		log.Fatalf("Failed to unmarshal credential data: %v", err)
+	}
+
+	// Print the loaded credentials (for demonstration purposes)
+	log.Printf("Loaded mock credentials: %v", cred)
 
 	serverMux := http.NewServeMux()
 	serverMux.HandleFunc("/greeter/greet", greet)
